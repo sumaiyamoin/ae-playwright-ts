@@ -4,7 +4,8 @@ class Signup {
     constructor(webpage: Page) { //parameter of constructor
         this.page = webpage;
     }
-    async registration(name: string, email: string, password: string) {
+    async register(name: string, email: string, password: string) {
+        await this.page.getByText('Register / Login').nth(1).click();
         await this.page.getByRole('textbox', { name: "Name" }).fill(name);
         await this.page.getByRole('textbox', { name: "Email Address" }).nth(1).fill(email);
         await this.page.getByRole('button', { name: "Signup" }).click();
@@ -31,6 +32,9 @@ class Signup {
         await this.page.locator('#zipcode').fill('48');
         await this.page.getByRole('textbox', { name: "Mobile Number *" }).fill("88000008467");
         await this.page.getByRole('button', { name: "Create Account" }).click();
+        await this.page.getByRole('heading', { name: 'Account Created!' }).waitFor();
+        //await this.page.getByRole('button', { name: 'Continue' }).click();
+        await this.page.getByText('Continue' ).click();
     }
 }
 export { Signup }
