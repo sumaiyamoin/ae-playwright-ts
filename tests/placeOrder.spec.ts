@@ -3,16 +3,16 @@ import { PlaceOrder } from '../pages/PlaceOrder';
 import { Signup } from '../pages/SignUp';
 import { faker } from '@faker-js/faker'
 import { Checkout } from '../pages/Checkout';
-import { DeletePage } from '../pages/DeletePage';
+import { Account } from '../pages/Account';
 
-test('T.C 14: Place Order: Register while Checkout', async ({ page }) => {
+test('User should be able to register during checkout process', async ({ page }) => {
     await page.goto('https://www.automationexercise.com/');
     const p = new PlaceOrder(page);
-    await p.placeOrder();
-    await page.getByText('Register / Login').nth(1).click();
+    await p.placeOrder('Blue Top');
+
     const signUp = new Signup(page);
     const email = faker.internet.email().toLocaleLowerCase();
-    await signUp.registration('ABC', email, '1234');
+    await signUp.register('ABC', email, '1234');
 
     const checkout = new Checkout(page);
 
@@ -24,11 +24,14 @@ test('T.C 14: Place Order: Register while Checkout', async ({ page }) => {
         expirationYear: '2025'
     };
 
+    expect(await page.locator('.active').first()).toContainText('Shopping Cart');
+
     await checkout.proceedToCheckout(itemName);
+    await expect(page.getByText("Congratulations! Your order has been confirmed!")).toBeVisible();
 
-    const deletePage = new DeletePage(page);
-    await deletePage.deleteAccount();
-
+    const account = new Account(page);
+    await account.deleteAccount();
+    await expect(page.getByRole('heading', { name: 'Account Deleted!' })).toHaveText('Account Deleted!');
     //await page.pause();
 
 })

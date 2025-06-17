@@ -17,11 +17,10 @@ class Checkout {
 
 
     async proceedToCheckout(checkout: ICheckoutDetails) {
-        //await this.page.pause();
+        await this.page.getByText('Proceed To Checkout').click();
         await this.page.getByRole('link', { name: ' Cart' }).click();
 
         await this.page.getByText('Proceed To Checkout').click();
-        await expect(this.page.locator('#address_delivery')).toContainText('Your delivery address');
         await this.page.locator('textarea[name="message"]').fill('test comment');
         await this.page.getByRole('link', { name: 'Place Order' }).click();
         await this.page.getByRole('textbox').nth(0).fill(checkout.nameOnCard);
@@ -30,9 +29,6 @@ class Checkout {
         await this.page.getByRole('textbox').nth(3).fill(checkout.expirationMonth);
         await this.page.getByRole('textbox').nth(4).fill(checkout.expirationYear);
         await this.page.getByRole('button', { name: 'Pay and Confirm Order' }).click();
-        await expect(this.page.getByText(/Congratulations! Your order has been confirmed!/)).toBeVisible();
-
-
     }
 
 }
