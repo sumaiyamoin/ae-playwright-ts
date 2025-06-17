@@ -5,15 +5,14 @@ import { faker } from '@faker-js/faker'
 import { Checkout } from '../pages/Checkout';
 
 test('User should be able to register during checkout process', async ({ page }) => {
-    const p = new PlaceOrder(page);
-    await p.placeOrder('Blue Top');
+    const order = new PlaceOrder(page);
+    await order.placeOrder('Blue Top');
 
-    const signUp = new Signup(page);
+    const signUpPage = new Signup(page);
     const email = faker.internet.email().toLocaleLowerCase();
-    await signUp.register('ABC', email, '1234');
-    //await page.pause();
+    await signUpPage.register('ABC', email, '1234');
 
-    const checkout = new Checkout(page);
+    const checkOutPage = new Checkout(page);
 
     const itemName = {
         nameOnCard: 'test',
@@ -23,13 +22,9 @@ test('User should be able to register during checkout process', async ({ page })
         expirationYear: '2025'
     };
 
+    await checkOutPage.proceedToCheckout(itemName);
+    await expect(checkOutPage.txtDelete).toHaveText('Account Deleted!');
 
-    //expect(await page.locator('.active').first()).toContainText('Shopping Cart');
-
-    await checkout.proceedToCheckout(itemName);
-
-    await expect(page.getByRole('heading', { name: 'Account Deleted!' })).toHaveText('Account Deleted!');
-    
     //await page.pause();
 
 })

@@ -30,6 +30,11 @@ class Checkout {
         await this.page.getByRole('button', { name: 'Pay and Confirm Order' }).click();
         await this.page.getByText("Congratulations! Your order has been confirmed!").waitFor();
         await this.page.getByRole('link', { name: ' Delete Account' }).click();
+        const textDelete = this.page.getByRole('heading', { name: 'Account Deleted!' });
+    }
+
+    get txtDelete() {
+        return this.page.getByRole('heading', { name: 'Account Deleted!' });
     }
 
 }
