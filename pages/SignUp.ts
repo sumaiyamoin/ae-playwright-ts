@@ -32,6 +32,9 @@ class Signup {
         await this.page.locator('#zipcode').fill('48');
         await this.page.getByRole('textbox', { name: "Mobile Number *" }).fill("88000008467");
         await this.page.getByRole('button', { name: "Create Account" }).click();
+        await this.page.getByRole('heading', { name: 'Account Created!' }).waitFor();
+        //await this.page.getByRole('button', { name: 'Continue' }).click();
+        await this.page.getByText('Continue' ).click();
     }
 }
 export { Signup }

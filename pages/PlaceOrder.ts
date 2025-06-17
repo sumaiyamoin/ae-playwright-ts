@@ -7,6 +7,7 @@ class PlaceOrder {
     }
 
     async placeOrder(itemName: string) {
+        await this.page.goto('https://www.automationexercise.com/');
         await this.page.locator(`text=${itemName}`).nth(0).hover();
         await this.page.locator('.overlay-content > .add-to-cart').first().click();
         await this.page.getByText('View Cart').click();        
