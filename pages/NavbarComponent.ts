@@ -70,3 +70,5 @@ class NavbarComponent {
         const afterLogoutText = this.page.getByRole('heading',{name:'Login to your account'});
     }
 }
+
+export {NavbarComponent}
