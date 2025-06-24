@@ -9,7 +9,7 @@ import { LoginPage } from '../pages/LoginPage';
 
 test('User should be able to register during checkout process', async ({ page }) => {
     const homePage = new HomePage(page);
-    await homePage.visitWebsite("https://www.automationexercise.com/");
+    await homePage.visit();
 
     const placeOrderPage=new PlaceOrderPage(page);
     await placeOrderPage.placeOrder('Blue Top');
@@ -53,7 +53,7 @@ test('User should be able to register during checkout process', async ({ page })
 
 test.only('User should be able to login during checkout process', async ({ page }) => {
     const homePage = new HomePage(page);
-    await homePage.visitWebsite("https://www.automationexercise.com/");
+    await homePage.visit();
 
     const placeOrderPage=new PlaceOrderPage(page);
     await placeOrderPage.placeOrder('Blue Top');

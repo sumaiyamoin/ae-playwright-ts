@@ -5,10 +5,13 @@ class HomePage {
     constructor(webpage: Page) {
         this.page = webpage;
     }
-    async visitWebsite(url: string) {
-        await this.page.goto(url, {
-            timeout: 60000
-        });
+    // async visitWebsite(url: string) {
+    //     await this.page.goto(url, {
+    //         timeout: 60000
+    //     });
+    // }
+    async visit(){
+        await this.page.goto('https://www.automationexercise.com/');
     }
 }
 

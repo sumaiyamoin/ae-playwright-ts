@@ -9,7 +9,7 @@ import { log } from 'console';
 
 test.beforeEach('Visit Website', async ({ page }) => {
     const homePage = new HomePage(page);
-    await homePage.visitWebsite("https://www.automationexercise.com/");
+    await homePage.visit();
 })
 
 test("Verify that user can register successfully", async ({ page }) => {
