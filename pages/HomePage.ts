@@ -5,13 +5,16 @@ class HomePage {
     constructor(webpage: Page) {
         this.page = webpage;
     }
-    // async visitWebsite(url: string) {
-    //     await this.page.goto(url, {
-    //         timeout: 60000
-    //     });
-    // }
+
     async visit(){
         await this.page.goto('https://www.automationexercise.com/');
+    }
+
+    async addToCart(itemName: string){
+        await this.page.waitForSelector('text=Blue Top', { state: 'visible' });
+        await this.page.locator(`.single-products:has-text("${itemName}")`).first().hover();
+        await this.page.locator('.overlay-content > .add-to-cart').first().click();
+        await this.page.getByText('View Cart').click();
     }
 }
 

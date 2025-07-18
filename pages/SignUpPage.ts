@@ -24,8 +24,7 @@ class SignUpPage{
     }
     
     async register(data: registerData) {
-        const {
-            name, email, password, state, city, address, firstName, lastName, zipCode, mobileNumber, day, month, year} = data;
+        const { name, email, password, state, city, address, firstName, lastName, zipCode, mobileNumber, day, month, year} = data;
 
         await this.page.getByRole('link', { name: ' Signup / Login' }).click();
         await this.page.getByRole('textbox', { name: 'Name' }).fill(name);
