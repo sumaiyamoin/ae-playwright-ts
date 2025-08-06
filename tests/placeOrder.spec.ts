@@ -5,7 +5,6 @@ import { SignUpPage, registerData } from '../pages/SignUpPage';
 import { faker } from '@faker-js/faker'
 import { CheckoutPage } from '../pages/CheckoutPage';
 import { HomePage } from '../pages/HomePage';
-import { LoginPage } from '../pages/LoginPage';
 import { NavbarComponent } from '../pages/NavbarComponent';
 
 test('User should be able to register during checkout process', async ({ page }) => {

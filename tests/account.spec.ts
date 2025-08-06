@@ -1,11 +1,12 @@
 import { test, expect } from '@playwright/test'
 import { SignUpPage, registerData } from '../pages/SignUpPage';
-import {LoginPage} from '../pages/LoginPage';
 import { faker } from '@faker-js/faker'
 import { HomePage } from '../pages/HomePage';
 import { NavbarComponent } from '../pages/NavbarComponent';
 import { log } from 'console';
-
+import { emit } from 'process';
+import * as fs from 'fs';
+import * as path from 'path';
 
 
 test.beforeEach('Visit Website', async ({ page }) => {
@@ -13,7 +14,7 @@ test.beforeEach('Visit Website', async ({ page }) => {
     await homePage.visit();
 })
 
-test("Verify that user can register successfully", async ({ page }) => {
+test.only("Verify that user can register successfully", async ({ page }) => {
     const navBarComponent = new NavbarComponent(page);
 
     const data: registerData = {
@@ -32,19 +33,35 @@ test("Verify that user can register successfully", async ({ page }) => {
         year: "2020"
     };
 
-   await navBarComponent.register(data);
+    await navBarComponent.register(data);
 
     console.log(data.name, data.email, data.password);
 });
 
 test('Verify if login is successful', async ({ page }) => {
-    const email = "Leilani.Mertz@hotmail.com";
-    const password = "testpassword";
+
+    interface User {
+        email: string;
+        password: string;
+    }
+
+    const jsonPath = fs.readFileSync('users.json', "utf-8"); //read file
+    const userListObj:User[] = JSON.parse(jsonPath);
+
+    const lastUserObj = userListObj[userListObj.length - 1];
+
+    const email = lastUserObj.email;
+    const password = lastUserObj.password;;
 
     const navBarComponent = new NavbarComponent(page);
     await navBarComponent.login(email, password);
 
 });
+
+// test.only('Login using stored credentials', async ({ page }) => {
+//     const navBarComponent = new NavbarComponent(page);
+//     await navBarComponent.login('', '');
+// });
 
 test('Verify if account can be deleted after registration', async ({ page }) => {
     const navBarComponent = new NavbarComponent(page);
@@ -59,7 +76,7 @@ test('Verify if account can be deleted after registration', async ({ page }) => 
         firstName: "Test",
         lastName: "User",
         zipCode: "40",
-        mobileNumber: "44201234567", 
+        mobileNumber: "44201234567",
         day: "1",
         month: "2",
         year: "2020"
@@ -71,7 +88,7 @@ test('Verify if account can be deleted after registration', async ({ page }) => 
     await navBarComponent.deleteAccount();
 })
 
-test.only('Verify if account can be deleted after login', async ({ page }) => {
+test('Verify if account can be deleted after login', async ({ page }) => {
     const navBarComponent = new NavbarComponent(page);
     navBarComponent.login("Ilene.Kiehn-Weimann@yahoo.com", "testpassword");
     await navBarComponent.deleteAccount();

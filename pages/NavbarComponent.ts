@@ -1,4 +1,6 @@
 import { expect, Page } from '@playwright/test'
+import * as fs from 'fs';
+import * as path from 'path';
 
 type registerData = {
     name: string;
@@ -56,6 +58,19 @@ class NavbarComponent {
         await this.page.getByRole('button', { name: "Create Account" }).click();
         await this.page.getByRole('heading', { name: 'Account Created!' }).waitFor();
         await this.page.getByText('Continue').click();
+
+        interface User {
+            email: string; 
+            password: string;
+        }
+
+        const filePath = path.join(__dirname, '..', '/users.json'); //locate file
+        const jsonPath = fs.readFileSync(filePath, "utf-8"); //read file
+        const userListObj:User[] = JSON.parse(jsonPath); //parsing from the jsonFile to obj/list
+
+        const newUserObj = { email, password };
+        await userListObj.push(newUserObj);
+        await fs.writeFileSync("users.json", JSON.stringify(userListObj, null, 2));
     }
 
     async deleteAccount() {
@@ -65,21 +80,21 @@ class NavbarComponent {
     }
 
     async logout() {
-        await this.page.getByRole('link',{name:' Logout'}).click();
+        await this.page.getByRole('link', { name: ' Logout' }).click();
         //await expect(this.page.getByRole('heading',{name:'Login to your account'})).toBeVisible();
-        const afterLogoutText = this.page.getByRole('heading',{name:'Login to your account'});
+        const afterLogoutText = this.page.getByRole('heading', { name: 'Login to your account' });
     }
-    
+
     async placeOrder(itemName: string) {
         // await this.page.locator(`text=${itemName}`).nth(0).hover();
         await this.page.waitForSelector('text=Blue Top', { state: 'visible' });
         await this.page.locator(`.single-products:has-text("${itemName}")`).first().hover();
         await this.page.locator('.overlay-content > .add-to-cart').first().click();
-       // await page.locator('.overlay-content > .btn').first().click();
-        await this.page.getByText('View Cart').click();        
+        // await page.locator('.overlay-content > .btn').first().click();
+        await this.page.getByText('View Cart').click();
         await this.page.getByText('Proceed To Checkout').click();
         await this.page.getByRole('link', { name: 'Register / Login' }).click();
     }
 }
 
-export {NavbarComponent}
+export { NavbarComponent }
