@@ -13,7 +13,6 @@ This project is an automated end-to-end testing suite for [automationexercise.co
 ## Project Structure
 
 ```
-.
 ├── pages/         # Page Object Model classes (HomePage, NavbarComponent, etc.)
 ├── tests/         # Playwright test specs
 ├── test/          # JSON data files and utility scripts
@@ -46,7 +45,7 @@ npx playwright test
 
 ### Test Data
 
-- User credentials are stored in `users.json` and `test/users.json`.
+- User credentials are stored in `users.json`.
 - Faker is used for generating random user data during registration.
 
 ## Key Files
